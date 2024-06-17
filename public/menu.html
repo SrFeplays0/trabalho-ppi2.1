@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Principal</title>
+  <link rel="stylesheet" href="/styles/menus.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Menu Principal</h1>
+    <nav>
+      <ul>
+        <li><a href="/cadastro-interessado">Cadastro de Interessados</a></li>
+        <li><a href="/cadastro-pet">Cadastro de Pets</a></li>
+        <li><a href="/adocao">Adotar um Pet</a></li>
+      </ul>
+    </nav>
+    <p>Último acesso: <span id="last-access"></span></p>
+    <form action="/logout" method="POST">
+      <button type="submit">Logout</button>
+    </form>
+  </div>
+  <script>
+    function getCookie(name) {
+      let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      ));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    const lastAccess = getCookie('lastAccess');
+
+    const lastAccessDate = new Date(lastAccess);
+
+    if (!isNaN(lastAccessDate)) {
+      document.getElementById('last-access').textContent = lastAccessDate.toLocaleString('pt-BR', { dateStyle: 'full', timeStyle: 'long' });
+    } else {
+      document.getElementById('last-access').textContent = 'Data inválida';
+    }
+  </script>
+</body>
+</html>

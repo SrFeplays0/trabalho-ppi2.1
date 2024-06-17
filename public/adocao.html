@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Adoção de Pets</title>
+  <link rel="stylesheet" href="/styles/adocao.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Adoção de Pets</h1>
+    <form action="/adocao" method="POST">
+      <label for="interessado">Interessado:</label>
+      <select id="interessado" name="interessado" required></select>
+      <label for="pet">Pet:</label>
+      <select id="pet" name="pet" required></select>
+      <button type="submit">Adotar</button>
+    </form>
+    <h2>Lista de Adoções</h2>
+    <ul id="adocoes-list"></ul>
+  </div>
+  <script>
+    fetch('/cadastro-interessado/list')
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById('interessado');
+        data.forEach(interessado => {
+          const option = document.createElement('option');
+          option.value = interessado.id;
+          option.textContent = interessado.nome;
+          select.appendChild(option);
+        });
+      });
+
+    fetch('/cadastro-pet/list')
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById('pet');
+        data.forEach(pet => {
+          const option = document.createElement('option');
+          option.value = pet.id;
+          option.textContent = pet.nome;
+          select.appendChild(option);
+        });
+      });
+
+    fetch('/adocao/list')
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById('adocoes-list');
+        data.forEach(adocao => {
+          const listItem = document.createElement('li');
+          listItem.textContent = `${adocao.interessadoNome} adotou ${adocao.petNome} em ${new Date(adocao.data).toLocaleDateString()}`;
+          list.appendChild(listItem);
+        });
+      });
+  </script>
+</body>
+</html>
